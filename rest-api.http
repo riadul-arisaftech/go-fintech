@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:3000
+@version = v1
+
+### @name auth
+POST {{baseUrl}}/{{version}}/auth/login
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "riad@gmail.com",
+    "password": "12345678"
+}
+
+### @name register
+POST {{baseUrl}}/{{version}}/auth/register
+Accept: application/json
+Content-Type: application/json
+
+{
+    "email": "riad@gmail.com",
+    "password": "12345678"
+}
+
+###
+@authToken = {{auth.response.headers.X-AuthToken}}
+
+### @name userList
+GET {{baseUrl}}/{{version}}/users/
+Authorization: "Bearer {{auth.response.body.token}}"
+Content-Type: application/json
+
+
+### @name profile
+GET {{baseUrl}}/{{version}}/users/profile
+Authorization: "Bearer {{auth.response.body.token}}"
+Content-Type: application/json
+
+### create new user
+POST {{baseUrl}}/{{version}}/account/create
+Authorization: "Bearer {{auth.response.body.token}}"
+Content-Type: application/json

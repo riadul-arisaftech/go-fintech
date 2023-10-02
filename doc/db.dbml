@@ -1,0 +1,30 @@
+Table users as U {
+  id bigserial [pk, increment]
+  email varchar(256) [unique, not null]
+  hashed_password varchar(256) [not null]
+  created_at timestamptz [default: 'now()', not null]
+  updated_at timestamptz [default: 'now()', not null]
+}
+
+Table accounts {
+  id bigserial [pk, increment]
+  user_id int [ref:> U.id, not null]
+  balance double [not null, default: 0.00]
+  currency varchar(10) [not null]
+  created_at timestamptz [not null, default: 'now()']
+}
+
+Table entries {
+  id bigserial [pk, increment]
+  account_id int [ref:> accounts.id, not null]
+  amount double [not null]
+  created_at timestamptz [not null, default: 'now()']
+}
+
+Table transfers {
+  id bigserial [pk, increment]
+  from_account_id int [ref:> accounts.id, not null]
+  to_account_id int [ref:> accounts.id, not null]
+  amount double [not null]
+  created_at timestamptz [not null, default: 'now()']
+}
